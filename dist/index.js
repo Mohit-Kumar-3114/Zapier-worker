@@ -8,29 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
 const client_1 = require("@prisma/client");
 const kafkajs_1 = require("kafkajs");
 const parser_1 = require("./parser");
 const email_1 = require("./email");
 const prismaClient = new client_1.PrismaClient();
-const TOPIC_NAME = "mohit-zapier";
+const TOPIC_NAME = "quickstart-events";
 const kafka = new kafkajs_1.Kafka({
-    clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: [process.env.KAFKA_BROKERS || ""],
-    ssl: {
-        rejectUnauthorized: false,
-    },
-    sasl: {
-        mechanism: 'scram-sha-256',
-        username: process.env.KAFKA_SASL_USERNAME || "",
-        password: process.env.KAFKA_SASL_PASSWORD || "",
-    },
+    clientId: "outbox proccessor",
+    brokers: ["localhost:9092"],
 });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
